@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="page-title text-center">Welcome,</h2>
+
+    {% if user.is_authenticated %}
+        <p class="user-name text-center">{{ user.username }}.</p>
+        <div class="container">
+            {% for article in article_list %}
+                <h2 class="post-title text-center"><a href="{% url 'article_detail' pk=article.id %}">{{ article.title }}</a></h2>
+                <p class="author-name text-center">Author: <a href="{% url 'author' pk=article.author.id %}">{{ article.author.username }}</a></p>
+            {% endfor %}
+        </div>
+        <p class="text-right"><a href="{% url 'create_article' %}">Post an article</a></p>
+        <p class="text-right"><a href="{% url 'follow_list' %}">Follow List</a></p>
+        <p class="text-right"><a href="{% url 'account_detail' %}">Account Detail</a></p>
+    {% else %}
+        <!--
+        <div class="container">
+            {% for article in article_list %}
+                <h2 class="post-title text-center"><a href="{% url 'article_detail' pk=article.id %}">{{ article.title }}</a></h2>
+                <p class="author-name text-center">Author: <a href="{% url 'author' pk=article.author.id %}">{{ article.author.username }}</a></p>
+            {% endfor %}
+        </div>
+        -->
+        <h3 class="text-center">Login before doing anything.</h3>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if not user.is_authenticated or author.id == user.id %}
+        <h2 class="text-center">{{ author.username }}'s Articles</h2>
+    {% elif follower.count %}
+        <h2 class="text-center">{{ author.username }}'s Articles  <a href="{% url 'unfollow' pk=author.id %}">Unfollow</a> </h2>
+    {% else %}
+        <h2 class="text-center">{{ author.username }}'s Articles  <a href="{% url 'follow' pk=author.id %}">Follow</a> </h2>
+    {% endif %}
+    {% for article in works %}
+        <p class="text-center"><a href="{% url 'article_detail' pk=article.id %}">{{ article.title }}</a></p>
+    {% endfor %}
+    <p class="text-right"><a href="/">Back</a></p>
+{% endblock %}

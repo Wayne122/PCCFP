@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center">Login</h2>
+    <p class="text-center"><a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a></p>
+    <p class="text-center"><a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a></p>
+    <p class="text-right"><a href="/">Back</a></p>
+{% endblock %}

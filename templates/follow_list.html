@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center">{{ user.username }}'s Follow List</h2>
+    {% for record in follow_list %}
+        <p class="text-center"><a href="{% url 'author' pk=record.author.id %}">{{ record.author.username }}</a></p>
+    {% endfor %}
+    <p class="text-right"><a href="/">Back</a></p>
+{% endblock %}

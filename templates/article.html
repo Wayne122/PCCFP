@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="article-heading text-center">
+        <h1 class="title">{{ article.title }}</h1>
+        <div class="date">Created at: {{ article.created_at|date:'Y / m / d  H:i:s' }}</div>
+        <div class="author">Author: <a href="{% url 'author' pk=article.author.id %}">{{ article.author.username }}</a></div>
+    </div><br>
+    <div class="article-content text-center">
+        {{ article.content }}
+    </div><br>
+    {% if article.photo %}
+        <div class="thumbnail text-center">
+            <img class="photo" src="{{ article.photo }}" alt="">
+        </div>
+    {% else %}
+        <div class="thumbnail thumbnail-default text-center"></div>
+    {% endif %}
+    <div class="article-last-edit text-right">Last edited:{{ article.edited_at|date:'Y / m / d  H:i:s' }}</div>
+
+    {% if user.is_authenticated and article.author == user %}
+        <p class="text-right"><a href="{% url 'edit_article' pk=article.id %}">Edit</a></p>
+    {% endif %}
+
+    <br><br>
+    <p class="text-center">Comments:</p>
+    <div class="text-center">
+        {% for comment in comments %}
+            <a href="{% url 'author' pk=comment.user.id %}">{{ comment.user.username }}</a>
+            <p>{{ comment.content }}</p>
+            <p class="text-right">{{ comment.created_at|date:'Y / m / d  H:i:s' }}</p>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+        <p class="text-right"><a href="{% url 'comment' pk=article.id %}">Leave a comment</a></p>
+    {% else %}
+        <p class="text-right"><a href="{% url 'login' %}">Login to leave a comment</a></p>
+    {% endif %}
+    <p class="text-right"><a href="/">Back</a></p>
+
+    {% if user.is_authenticated %}
+        <h3 class="recommendation text-center">You may also like:</h3>
+        {% for article in recommendation %}
+            <p class="text-center"><a href="{% url 'article_detail' pk=article.id %}">{{ article.title }}</a> <a href="{% url 'author' pk=article.author.id %}">{{ article.author.username }}</a></p>
+        {% endfor %}
+    {% else %}
+        <h3 class="recommendation text-center">Login to get recommendations.</h3>
+    {% endif %}
+{% endblock %}
